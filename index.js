@@ -7,6 +7,7 @@ const app = express();
 
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const productRoutes = require("./routes/productRoutes");
+const userRoutes = require("./routes/userRoutes");
 const corsOptions = {
   origin: ["http://localhost:3000"],
   optionsSuccessStatus: 200,
@@ -24,7 +25,8 @@ app.get("/", (req, res) => {
   return res.send("Hello Xentro Backend Developer Candidate Test!");
 });
 
-app.use("/api", productRoutes);
+app.use("/api/product", productRoutes);
+app.use("/api/users", userRoutes); // Mount user routes
 app.use(notFound);
 app.use(errorHandler);
 
