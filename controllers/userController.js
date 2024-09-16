@@ -26,3 +26,37 @@ exports.registerUser = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
+// Login and issue JWT
+exports.loginUser = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { email, password } = req.body;
+
+  try {
+    // Check if the user exists
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    // Check if the password matches
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    // Create JWT payload
+    const payload = { userId: user.id, role: user.role };
+
+    // Sign JWT token
+    const token = jwt.sign(payload, "secretkey", { expiresIn: "1h" });
+
+    res.status(200).json({ token });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
