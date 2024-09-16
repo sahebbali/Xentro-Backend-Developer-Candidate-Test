@@ -23,7 +23,7 @@ Installation
 Clone the repository:
 bash
 Copy code
-git clone https://github.com/yourusername/product-management-api.git
+git clone [https://github.com/yourusername/product-management-api.git](https://github.com/sahebbali/Xentro-Backend-Developer-Candidate-Test)
 Navigate to the project directory:
 bash
 Copy code
